@@ -1,0 +1,34 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "klaw-router"
+version = "0.1.0"
+description = "KLAW Router — K-104 Intelligent Model Router. Route queries to the cheapest model that can handle them."
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.10"
+authors = [
+    { name = "Kit Malthaner" },
+]
+keywords = ["ai", "routing", "cost-optimization", "llm", "claude", "openai", "gemini", "klaw"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+
+[project.optional-dependencies]
+crypto = ["cryptography>=41.0"]
+
+[project.scripts]
+klaw = "klaw.__main__:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/klaw"]
+
+[tool.hatch.build.targets.wheel.force-include]
+"src/klaw/rooms.claw" = "klaw/rooms.claw"

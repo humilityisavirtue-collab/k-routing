@@ -1,0 +1,29 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "openpod"
+version = "0.1.0"
+description = "OpenPod -- 143-primitive inter-agent communication protocol. Whale-grade pod comms for AI agent cells."
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.10"
+authors = [
+    { name = "Kit Malthaner" },
+]
+keywords = ["ai", "agents", "multi-agent", "communication", "protocol", "pod", "k-104"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: System :: Distributed Computing",
+]
+
+[project.scripts]
+openpod = "openpod.__main__:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/openpod"]
