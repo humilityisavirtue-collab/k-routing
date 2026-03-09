@@ -23,6 +23,7 @@ classifiers = [
 
 [project.optional-dependencies]
 crypto = ["cryptography>=41.0"]
+dev = ["pytest>=7.0"]
 
 [project.scripts]
 klaw = "klaw.__main__:main"
@@ -32,3 +33,7 @@ packages = ["src/klaw"]
 
 [tool.hatch.build.targets.wheel.force-include]
 "src/klaw/rooms.claw" = "klaw/rooms.claw"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]

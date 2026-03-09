@@ -201,7 +201,7 @@ class KClassifier:
                 "confidence": 0.95,
                 "reason": "greeting_template",
                 "template_response": template_resp,
-                "k_address": "+H",
+                "k_address": "+1H",
             }
 
         # Suit classification via keyword matching
@@ -224,7 +224,8 @@ class KClassifier:
         # Tier by complexity
         tier, confidence, reason = self._assess_complexity(query_lower, word_count, suit, words)
 
-        pol_char = "+" if polarity == "light" else "-" if polarity == "dark" else "?"
+        pol_char = "+" if polarity == "light" else "-" if polarity == "dark" else "+"
+        rank = max(1, tier * 3)
         return {
             "tier": tier,
             "suit": suit,
@@ -232,7 +233,7 @@ class KClassifier:
             "confidence": confidence,
             "reason": reason,
             "template_response": None,
-            "k_address": f"{pol_char}{suit[0].upper()}",
+            "k_address": f"{pol_char}{rank}{suit[0].upper()}",
         }
 
     def _classify_suit(self, words: set) -> str:
@@ -452,7 +453,7 @@ class Backends:
         import urllib.request
         try:
             payload = json.dumps({
-                "model": "gemma3:4b",
+                "model": "gemma3:27b",
                 "messages": [
                     {"role": "system", "content": system_prompt or "You are a helpful assistant."},
                     {"role": "user", "content": query},

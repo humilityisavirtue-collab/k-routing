@@ -1,0 +1,99 @@
+name: Artemis
+
+# K-routed automated work via Gemini.
+# Artemis classifies the task, runs it through the K-104 system prompt, executes.
+#
+# Triggers:
+#   - Manual: workflow_dispatch with a task description
+#   - Auto: PR opened/updated (PR review mode)
+#   - Auto: push to main with [artemis] in commit message
+
+on:
+  workflow_dispatch:
+    inputs:
+      task:
+        description: "Task for Artemis (plain English)"
+        required: true
+        type: string
+      k_addr:
+        description: "Force K-address (e.g. +7S). Leave blank for auto-classify."
+        required: false
+        type: string
+      mode:
+        description: "Mode: review | fix | changelog | spec"
+        required: false
+        default: "review"
+        type: choice
+        options: [review, fix, changelog, spec]
+
+  pull_request:
+    types: [opened, synchronize]
+    branches: ["main", "master"]
+
+  push:
+    branches: ["main", "master"]
+
+jobs:
+  artemis:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # full history for diff
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          pip install google-generativeai requests
+          pip install -e . 2>/dev/null || true
+
+      - name: Determine task
+        id: task
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "task=${{ inputs.task }}" >> $GITHUB_OUTPUT
+            echo "mode=${{ inputs.mode }}" >> $GITHUB_OUTPUT
+            echo "k_addr=${{ inputs.k_addr }}" >> $GITHUB_OUTPUT
+          elif [ "${{ github.event_name }}" = "pull_request" ]; then
+            echo "task=Review this pull request. Check for correctness, K-address consistency, and any regressions." >> $GITHUB_OUTPUT
+            echo "mode=review" >> $GITHUB_OUTPUT
+            echo "k_addr=+7S" >> $GITHUB_OUTPUT
+          else
+            # Push: check commit message for [artemis <task>]
+            MSG=$(git log -1 --pretty=%B)
+            TASK=$(echo "$MSG" | grep -oP '\[artemis\s+\K[^\]]+' || echo "Summarize changes in this commit and update CHANGELOG if needed.")
+            echo "task=$TASK" >> $GITHUB_OUTPUT
+            echo "mode=changelog" >> $GITHUB_OUTPUT
+            echo "k_addr=" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Get diff context
+        id: diff
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            git diff origin/${{ github.base_ref }}...HEAD > /tmp/diff.txt
+          else
+            git diff HEAD~1 HEAD > /tmp/diff.txt
+          fi
+          # Truncate to 8000 chars (Gemini context limit safe)
+          head -c 8000 /tmp/diff.txt > /tmp/diff_truncated.txt
+          echo "diff_file=/tmp/diff_truncated.txt" >> $GITHUB_OUTPUT
+
+      - name: Run Artemis
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TASK: ${{ steps.task.outputs.task }}
+          MODE: ${{ steps.task.outputs.mode }}
+          K_ADDR: ${{ steps.task.outputs.k_addr }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          REPO: ${{ github.repository }}
+          EVENT: ${{ github.event_name }}
+        run: python .github/scripts/artemis_runner.py
