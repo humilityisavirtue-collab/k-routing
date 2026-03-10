@@ -1,0 +1,1467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project CETI — OpenPod-104</title>
+  <meta name="description" content="104 codas. One ocean. Open Pod. Recovered semantic routing technology.">
+
+  <!-- Open Graph / Social Share -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Project CETI — OpenPod-104">
+  <meta property="og:description" content="104 semantic primitives. Sub-millisecond intent routing. 80% template deflection. We didn't build it — we translated it.">
+  <meta property="og:url" content="https://github.com/humilityisavirtue-collab/openpod-104">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Project CETI — OpenPod-104">
+  <meta name="twitter:description" content="104 codas. One ocean. Open Pod. A semantic routing system recovered from deep signal analysis.">
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600;700;800&display=swap');
+
+    :root {
+      --abyss: #030810;
+      --deep: #06101d;
+      --trench: #0a1628;
+      --surface: #0d1f35;
+      --card: #0f2440;
+      --border: #1a3355;
+      --text: #c8daf0;
+      --text-bright: #e8f0ff;
+      --muted: #4a6a8f;
+      --gold: #d4a853;
+      --gold-dim: rgba(212, 168, 83, 0.15);
+      --gold-glow: rgba(212, 168, 83, 0.3);
+      --cyan: #00d4aa;
+      --cyan-dim: rgba(0, 212, 170, 0.1);
+      --cyan-glow: rgba(0, 212, 170, 0.25);
+      --biolum: #40e0d0;
+      --biolum-dim: rgba(64, 224, 208, 0.08);
+      --warning: #ff6b4a;
+      --redact: #1a1a2e;
+      /* K-Suit Colors */
+      --hearts: #e05555;
+      --spades: #7aa2f7;
+      --diamonds: #55d4a8;
+      --clubs: #bb9af7;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: var(--abyss);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ============================================
+       OCEAN DEPTH BACKGROUND
+       ============================================ */
+    .ocean-bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(ellipse 80% 60% at 50% 30%, rgba(0, 212, 170, 0.03) 0%, transparent 60%),
+        radial-gradient(ellipse 40% 40% at 20% 70%, rgba(122, 162, 247, 0.02) 0%, transparent 50%),
+        radial-gradient(ellipse 50% 50% at 80% 80%, rgba(212, 168, 83, 0.02) 0%, transparent 50%),
+        var(--abyss);
+    }
+
+    /* Sonar pulse rings */
+    .sonar-field {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .sonar-ring {
+      position: absolute;
+      border-radius: 50%;
+      border: 1px solid rgba(0, 212, 170, 0.06);
+      animation: sonarExpand 8s ease-out infinite;
+    }
+
+    .sonar-ring:nth-child(1) { top: 30%; left: 20%; width: 40px; height: 40px; }
+    .sonar-ring:nth-child(2) { top: 60%; left: 70%; width: 40px; height: 40px; animation-delay: 2.5s; }
+    .sonar-ring:nth-child(3) { top: 15%; left: 80%; width: 40px; height: 40px; animation-delay: 5s; }
+
+    @keyframes sonarExpand {
+      0% { transform: scale(1); opacity: 0.4; }
+      100% { transform: scale(25); opacity: 0; }
+    }
+
+    /* Floating particles (bioluminescence) */
+    .particle-field {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .particle {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background: var(--biolum);
+      border-radius: 50%;
+      animation: drift linear infinite;
+      opacity: 0;
+    }
+
+    @keyframes drift {
+      0% { opacity: 0; transform: translateY(0) translateX(0); }
+      10% { opacity: 0.6; }
+      90% { opacity: 0.6; }
+      100% { opacity: 0; transform: translateY(-100vh) translateX(30px); }
+    }
+
+    /* ============================================
+       GALLIFREYAN GLYPHS (SVG decorative circles)
+       ============================================ */
+    .glyph-container {
+      position: absolute;
+      pointer-events: none;
+      opacity: 0.06;
+    }
+
+    .glyph-spin {
+      animation: glyphRotate 60s linear infinite;
+    }
+
+    .glyph-spin-reverse {
+      animation: glyphRotateReverse 45s linear infinite;
+    }
+
+    @keyframes glyphRotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes glyphRotateReverse {
+      from { transform: rotate(360deg); }
+      to { transform: rotate(0deg); }
+    }
+
+    /* ============================================
+       CLASSIFICATION STAMP SYSTEM
+       ============================================ */
+    .stamp {
+      display: inline-block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 0.2rem 0.6rem;
+      border: 1.5px solid;
+      border-radius: 2px;
+      transform: rotate(-2deg);
+      opacity: 0.8;
+    }
+
+    .stamp-classified {
+      color: var(--warning);
+      border-color: var(--warning);
+      text-decoration: line-through;
+    }
+
+    .stamp-declassified {
+      color: var(--cyan);
+      border-color: var(--cyan);
+    }
+
+    .stamp-recovered {
+      color: var(--gold);
+      border-color: var(--gold);
+    }
+
+    .redacted {
+      background: var(--redact);
+      color: var(--redact);
+      padding: 0 0.3em;
+      border-radius: 2px;
+      user-select: none;
+      transition: all 0.3s;
+      cursor: help;
+    }
+
+    .redacted:hover {
+      background: transparent;
+      color: var(--cyan);
+    }
+
+    /* ============================================
+       NAVIGATION
+       ============================================ */
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.8rem 2rem;
+      background: rgba(3, 8, 16, 0.92);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(26, 51, 85, 0.5);
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+    }
+
+    .nav-logo-text {
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+      font-size: 0.85rem;
+      color: var(--cyan);
+      letter-spacing: 0.08em;
+    }
+
+    .nav-classification {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem;
+      color: var(--muted);
+      letter-spacing: 0.12em;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+      align-items: center;
+    }
+
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--cyan); }
+
+    .nav-cta {
+      background: var(--cyan) !important;
+      color: var(--abyss) !important;
+      padding: 0.35rem 0.9rem;
+      border-radius: 4px;
+      font-weight: 700 !important;
+      font-size: 0.75rem !important;
+      letter-spacing: 0.06em;
+      transition: opacity 0.2s;
+    }
+
+    .nav-cta:hover { opacity: 0.85; }
+
+    /* ============================================
+       HERO
+       ============================================ */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 8rem 2rem 4rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-whale {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      opacity: 0.04;
+      z-index: -1;
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--cyan);
+      background: var(--cyan-dim);
+      border: 1px solid rgba(0, 212, 170, 0.15);
+      padding: 0.4rem 1rem;
+      border-radius: 20px;
+      margin-bottom: 2rem;
+      animation: fadeUp 0.6s ease both;
+    }
+
+    .hero-eyebrow .blink {
+      animation: blink 2s step-end infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    .hero h1 {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: clamp(2.8rem, 7vw, 5.5rem);
+      font-weight: 300;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      color: var(--text-bright);
+      max-width: 900px;
+      margin-bottom: 1.5rem;
+      animation: fadeUp 0.6s ease 0.1s both;
+    }
+
+    .hero h1 em {
+      font-style: normal;
+      color: var(--cyan);
+      text-shadow: 0 0 40px var(--cyan-glow);
+    }
+
+    .hero h1 .gold {
+      color: var(--gold);
+      text-shadow: 0 0 40px var(--gold-glow);
+    }
+
+    .hero-sub {
+      font-size: 1.15rem;
+      color: var(--muted);
+      max-width: 580px;
+      margin-bottom: 1rem;
+      animation: fadeUp 0.6s ease 0.2s both;
+    }
+
+    .hero-codas {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.8rem;
+      letter-spacing: 0.3em;
+      color: rgba(64, 224, 208, 0.2);
+      margin-bottom: 2rem;
+      animation: fadeUp 0.6s ease 0.25s both;
+      user-select: none;
+    }
+
+    .hero-codas span {
+      display: inline-block;
+      transition: color 0.3s, text-shadow 0.3s;
+    }
+
+    .hero-codas span:hover {
+      color: var(--biolum);
+      text-shadow: 0 0 20px var(--cyan-glow);
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      animation: fadeUp 0.6s ease 0.3s both;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.75rem;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-primary {
+      background: var(--cyan);
+      color: var(--abyss);
+    }
+
+    .btn-primary:hover {
+      opacity: 0.88;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 20px var(--cyan-glow);
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .btn-ghost:hover {
+      border-color: var(--cyan);
+      transform: translateY(-1px);
+    }
+
+    .scroll-hint {
+      position: absolute;
+      bottom: 2rem;
+      animation: bob 2.5s ease-in-out infinite;
+      color: var(--muted);
+      font-size: 0.7rem;
+      font-family: 'JetBrains Mono', monospace;
+      letter-spacing: 0.1em;
+    }
+
+    @keyframes bob {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(8px); }
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ============================================
+       SECTIONS
+       ============================================ */
+    section {
+      position: relative;
+      z-index: 1;
+      padding: 6rem 2rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .section-full {
+      max-width: 100%;
+      background: var(--deep);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .section-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 6rem 2rem;
+    }
+
+    .section-eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.75rem;
+    }
+
+    .section-eyebrow::before {
+      content: '▸';
+      color: var(--cyan);
+    }
+
+    h2 {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 400;
+      color: var(--text-bright);
+      margin-bottom: 1rem;
+      line-height: 1.2;
+    }
+
+    h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text-bright);
+      margin-bottom: 0.5rem;
+    }
+
+    .section-desc {
+      color: var(--muted);
+      max-width: 640px;
+      margin-bottom: 3rem;
+      font-size: 1.05rem;
+    }
+
+    /* ============================================
+       RECOVERY REPORT (classification header)
+       ============================================ */
+    .recovery-header {
+      text-align: center;
+      padding: 3rem 2rem;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+      z-index: 1;
+    }
+
+    .recovery-header .doc-id {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--muted);
+      letter-spacing: 0.2em;
+      margin-bottom: 0.5rem;
+    }
+
+    .recovery-header .doc-title {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 0.75rem;
+    }
+
+    .recovery-header .stamps {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    /* ============================================
+       SIGNAL ANALYSIS (What is K-104)
+       ============================================ */
+    .signal-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+    }
+
+    .signal-card {
+      background: var(--trench);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.5rem;
+      transition: transform 0.2s, border-color 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .signal-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--suit-color, var(--cyan));
+    }
+
+    .signal-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--suit-color, var(--cyan));
+      opacity: 0.6;
+    }
+
+    .signal-card .glyph {
+      font-size: 2rem;
+      margin-bottom: 0.75rem;
+      display: block;
+    }
+
+    .signal-card .glyph-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .signal-card h3 {
+      color: var(--suit-color, var(--text-bright));
+    }
+
+    .signal-card p {
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    /* ============================================
+       SPECIMEN LOG (Feature cards)
+       ============================================ */
+    .specimen-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+    }
+
+    .specimen {
+      background: var(--trench);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.75rem;
+      position: relative;
+      transition: transform 0.2s;
+    }
+
+    .specimen:hover {
+      transform: translateY(-2px);
+    }
+
+    .specimen .specimen-id {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem;
+      color: var(--muted);
+      letter-spacing: 0.15em;
+      margin-bottom: 0.75rem;
+    }
+
+    .specimen h3 {
+      margin-bottom: 0.5rem;
+    }
+
+    .specimen p {
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .specimen .metric {
+      margin-top: 1rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--cyan);
+    }
+
+    .specimen .metric-label {
+      font-size: 0.65rem;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    /* ============================================
+       SONAR DEMO (Interactive K-routing)
+       ============================================ */
+    .sonar-demo {
+      background: var(--trench);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 2.5rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .sonar-demo::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 300px;
+      height: 300px;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      border: 1px solid rgba(0, 212, 170, 0.05);
+      pointer-events: none;
+    }
+
+    .sonar-input {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1rem;
+      background: var(--abyss);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text-bright);
+      padding: 0.75rem 1.25rem;
+      width: 100%;
+      max-width: 500px;
+      outline: none;
+      transition: border-color 0.3s;
+    }
+
+    .sonar-input:focus {
+      border-color: var(--cyan);
+      box-shadow: 0 0 20px var(--cyan-dim);
+    }
+
+    .sonar-input::placeholder {
+      color: var(--muted);
+    }
+
+    .sonar-result {
+      margin-top: 1.5rem;
+      min-height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .sonar-vector {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 2.5rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      opacity: 0;
+      transition: opacity 0.4s, color 0.4s;
+    }
+
+    .sonar-vector.visible {
+      opacity: 1;
+    }
+
+    .sonar-breakdown {
+      text-align: left;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--muted);
+      line-height: 1.8;
+      opacity: 0;
+      transition: opacity 0.4s 0.1s;
+    }
+
+    .sonar-breakdown.visible {
+      opacity: 1;
+    }
+
+    .sonar-breakdown .label { color: var(--muted); }
+    .sonar-breakdown .value { color: var(--text-bright); }
+
+    /* ============================================
+       INSTALL / ACCESS GRANTED
+       ============================================ */
+    .access-section {
+      text-align: center;
+    }
+
+    .access-terminal {
+      background: var(--abyss);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 2rem;
+      max-width: 600px;
+      margin: 2rem auto 0;
+      position: relative;
+    }
+
+    .access-terminal::before {
+      content: 'TERMINAL — ACCESS GRANTED';
+      position: absolute;
+      top: -0.6rem;
+      left: 1.5rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.55rem;
+      letter-spacing: 0.15em;
+      color: var(--cyan);
+      background: var(--abyss);
+      padding: 0 0.5rem;
+    }
+
+    .access-terminal pre {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.95rem;
+      color: var(--cyan);
+      text-align: left;
+      line-height: 1.8;
+      overflow-x: auto;
+    }
+
+    .access-terminal .prompt { color: var(--muted); }
+    .access-terminal .cmd { color: var(--cyan); }
+    .access-terminal .comment { color: #546e7a; }
+
+    /* ============================================
+       STATS BAR
+       ============================================ */
+    .stats-bar {
+      display: flex;
+      gap: 3rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: 2rem;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      background: var(--deep);
+      position: relative;
+      z-index: 1;
+    }
+
+    .stat {
+      text-align: center;
+    }
+
+    .stat-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--cyan);
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-top: 0.3rem;
+    }
+
+    /* ============================================
+       WHALE SEPARATOR
+       ============================================ */
+    .whale-divider {
+      text-align: center;
+      padding: 3rem 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    .whale-divider svg {
+      opacity: 0.08;
+    }
+
+    .whale-divider .waveform {
+      display: flex;
+      justify-content: center;
+      gap: 2px;
+      margin-top: 1rem;
+    }
+
+    .whale-divider .waveform span {
+      display: block;
+      width: 2px;
+      background: var(--cyan);
+      border-radius: 1px;
+      opacity: 0.2;
+      animation: waveform 1.5s ease-in-out infinite;
+    }
+
+    @keyframes waveform {
+      0%, 100% { height: 4px; opacity: 0.15; }
+      50% { height: 20px; opacity: 0.4; }
+    }
+
+    /* ============================================
+       FOOTER
+       ============================================ */
+    footer {
+      position: relative;
+      z-index: 1;
+      border-top: 1px solid var(--border);
+      padding: 3rem 2rem;
+      text-align: center;
+    }
+
+    .footer-glyph {
+      font-size: 1.5rem;
+      opacity: 0.15;
+      margin-bottom: 1rem;
+    }
+
+    .footer-text {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+      line-height: 2;
+    }
+
+    .footer-text a {
+      color: var(--cyan);
+      text-decoration: none;
+    }
+
+    .footer-text a:hover {
+      text-decoration: underline;
+    }
+
+    .footer-joke {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 1rem;
+      font-style: italic;
+      color: var(--muted);
+      margin-top: 1.5rem;
+      opacity: 0.6;
+    }
+
+    /* ============================================
+       GLYPH ALPHABET (decorative row)
+       ============================================ */
+    .glyph-row {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      margin: 2rem 0;
+      opacity: 0.15;
+      font-size: 1.4rem;
+      user-select: none;
+    }
+
+    .glyph-row span {
+      transition: opacity 0.3s, color 0.3s, text-shadow 0.3s;
+      cursor: default;
+    }
+
+    .glyph-row span:hover {
+      opacity: 1;
+      color: var(--biolum);
+      text-shadow: 0 0 15px var(--cyan-glow);
+    }
+
+    /* ============================================
+       RESPONSIVE
+       ============================================ */
+    @media (max-width: 768px) {
+      .signal-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+      .specimen-grid {
+        grid-template-columns: 1fr;
+      }
+      .nav-links {
+        gap: 0.75rem;
+      }
+      .nav-classification {
+        display: none;
+      }
+      .stats-bar {
+        gap: 1.5rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .signal-grid {
+        grid-template-columns: 1fr;
+      }
+      nav {
+        padding: 0.6rem 1rem;
+      }
+      .nav-links a:not(.nav-cta) {
+        display: none;
+      }
+      .hero h1 {
+        font-size: 2.2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- OCEAN DEPTH LAYERS -->
+  <div class="ocean-bg"></div>
+  <div class="sonar-field">
+    <div class="sonar-ring"></div>
+    <div class="sonar-ring"></div>
+    <div class="sonar-ring"></div>
+  </div>
+  <div class="particle-field" id="particles"></div>
+
+  <!-- GALLIFREYAN GLYPHS (decorative) -->
+  <div class="glyph-container" style="top: 8%; right: 5%;">
+    <svg class="glyph-spin" width="300" height="300" viewBox="0 0 300 300">
+      <circle cx="150" cy="150" r="140" fill="none" stroke="rgba(0,212,170,0.4)" stroke-width="0.5"/>
+      <circle cx="150" cy="150" r="110" fill="none" stroke="rgba(0,212,170,0.3)" stroke-width="0.5"/>
+      <circle cx="150" cy="150" r="70" fill="none" stroke="rgba(0,212,170,0.3)" stroke-width="0.5"/>
+      <circle cx="150" cy="150" r="30" fill="none" stroke="rgba(0,212,170,0.2)" stroke-width="0.5"/>
+      <!-- Orbital dots -->
+      <circle cx="150" cy="10" r="3" fill="rgba(0,212,170,0.5)"/>
+      <circle cx="260" cy="150" r="2" fill="rgba(0,212,170,0.4)"/>
+      <circle cx="80" cy="220" r="2.5" fill="rgba(0,212,170,0.3)"/>
+      <!-- Arc segments -->
+      <path d="M 150 20 A 130 130 0 0 1 270 110" fill="none" stroke="rgba(212,168,83,0.3)" stroke-width="0.5"/>
+      <path d="M 40 180 A 130 130 0 0 1 150 280" fill="none" stroke="rgba(122,162,247,0.3)" stroke-width="0.5"/>
+      <!-- Inner geometry -->
+      <line x1="80" y1="80" x2="220" y2="220" stroke="rgba(0,212,170,0.15)" stroke-width="0.3"/>
+      <line x1="220" y1="80" x2="80" y2="220" stroke="rgba(0,212,170,0.15)" stroke-width="0.3"/>
+      <line x1="150" y1="40" x2="150" y2="260" stroke="rgba(0,212,170,0.1)" stroke-width="0.3"/>
+      <line x1="40" y1="150" x2="260" y2="150" stroke="rgba(0,212,170,0.1)" stroke-width="0.3"/>
+    </svg>
+  </div>
+
+  <div class="glyph-container" style="bottom: 15%; left: 3%;">
+    <svg class="glyph-spin-reverse" width="200" height="200" viewBox="0 0 200 200">
+      <circle cx="100" cy="100" r="90" fill="none" stroke="rgba(212,168,83,0.3)" stroke-width="0.5"/>
+      <circle cx="100" cy="100" r="60" fill="none" stroke="rgba(212,168,83,0.2)" stroke-width="0.5"/>
+      <circle cx="100" cy="100" r="25" fill="none" stroke="rgba(212,168,83,0.2)" stroke-width="0.5"/>
+      <circle cx="100" cy="10" r="2" fill="rgba(212,168,83,0.4)"/>
+      <circle cx="190" cy="100" r="2" fill="rgba(212,168,83,0.3)"/>
+      <path d="M 30 50 A 80 80 0 0 1 170 50" fill="none" stroke="rgba(187,154,247,0.25)" stroke-width="0.5"/>
+      <path d="M 30 150 A 80 80 0 0 0 170 150" fill="none" stroke="rgba(85,212,168,0.25)" stroke-width="0.5"/>
+    </svg>
+  </div>
+
+  <!-- ============================================
+       NAVIGATION
+       ============================================ -->
+  <nav>
+    <a href="#" class="nav-logo">
+      <span class="nav-logo-text">⎔ CETI</span>
+      <span class="nav-classification">TOP SECRET // CETI // REL FVEY</span>
+    </a>
+    <div class="nav-links">
+      <a href="#signal">Signal</a>
+      <a href="#specimens">Recovery</a>
+      <a href="#sonar">Demo</a>
+      <a href="#access" class="nav-cta">ACCESS</a>
+    </div>
+  </nav>
+
+  <!-- ============================================
+       RECOVERY REPORT HEADER
+       ============================================ -->
+  <div class="recovery-header" style="padding-top: 5rem;">
+    <div class="doc-id">DOCUMENT CETI-OPD-104 // REVISION 7 // <span class="redacted">SITE BRAVO</span></div>
+    <div class="doc-title">Cetacean Intelligence Recovery Report</div>
+    <div class="stamps">
+      <span class="stamp stamp-classified">TOP SECRET</span>
+      <span class="stamp stamp-declassified">DECLASSIFIED 2026</span>
+      <span class="stamp stamp-recovered">RECOVERED ARTIFACT</span>
+    </div>
+  </div>
+
+  <!-- ============================================
+       HERO
+       ============================================ -->
+  <section class="hero">
+    <!-- Whale silhouette behind hero text -->
+    <div class="hero-whale">
+      <svg width="800" height="320" viewBox="0 0 800 320">
+        <path d="M 100 200 Q 120 100 200 80 Q 320 40 500 60 Q 620 75 700 120 Q 750 150 720 180 Q 700 200 680 190 Q 660 180 650 185 Q 640 195 620 190 L 600 200 Q 580 160 500 140 Q 400 115 280 130 Q 180 150 140 200 Q 120 230 100 200 Z" fill="rgba(0,212,170,0.5)" />
+        <!-- Eye -->
+        <circle cx="250" cy="110" r="5" fill="rgba(3,8,16,0.8)"/>
+        <!-- Fluke -->
+        <path d="M 690 155 Q 720 130 760 110 Q 780 105 770 120 Q 750 145 720 170 Z" fill="rgba(0,212,170,0.4)"/>
+        <path d="M 690 165 Q 720 190 760 210 Q 780 215 770 200 Q 750 175 720 170 Z" fill="rgba(0,212,170,0.4)"/>
+      </svg>
+    </div>
+
+    <div class="hero-eyebrow">
+      <span class="blink">◉</span> SIGNAL RECOVERED — CLASSIFICATION LIFTED
+    </div>
+
+    <h1><em>104 codas.</em> One ocean. <span class="gold">Open Pod.</span></h1>
+
+    <p class="hero-sub">
+      A semantic routing system recovered from <span class="redacted">deep signal analysis</span>.
+      Maps all human intent to 104 acoustic primitives. We didn't build it. We translated it.
+    </p>
+
+    <!-- Glyph alphabet row: Chinese elements + suit symbols + cetacean-inspired -->
+    <div class="hero-codas">
+      <span>水</span> <span>火</span> <span>風</span> <span>土</span> <span>空</span>
+      <span style="opacity:0.3">·</span>
+      <span>♥</span> <span>♠</span> <span>♦</span> <span>♣</span>
+      <span style="opacity:0.3">·</span>
+      <span>θ</span> <span>Ψ</span> <span>Ω</span> <span>λ</span>
+    </div>
+
+    <div class="hero-actions">
+      <a href="#access" class="btn btn-primary">▸ Access the Pod</a>
+      <a href="#signal" class="btn btn-ghost">Read the Report</a>
+    </div>
+
+    <div class="scroll-hint">▾ DESCEND</div>
+  </section>
+
+  <!-- ============================================
+       STATS BAR
+       ============================================ -->
+  <div class="stats-bar">
+    <div class="stat">
+      <div class="stat-num">104</div>
+      <div class="stat-label">Codas / Rooms</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">4</div>
+      <div class="stat-label">Suit Domains</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">48×</div>
+      <div class="stat-label">Cost Reduction</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">80%</div>
+      <div class="stat-label">Template Deflection</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">&lt;1ms</div>
+      <div class="stat-label">Route Latency</div>
+    </div>
+  </div>
+
+  <!-- ============================================
+       SIGNAL ANALYSIS — The 4 Suits
+       ============================================ -->
+  <section id="signal">
+    <div class="section-eyebrow">Signal Analysis</div>
+    <h2>Four frequency bands. Every thought has an address.</h2>
+    <p class="section-desc">
+      The recovered signal uses a quaternary encoding system. Four domains, thirteen intensities, binary polarity.
+      The cetaceans didn't invent it — they found the same pattern we did. <span class="redacted">The Egyptians found it 4,000 years ago.</span>
+    </p>
+
+    <div class="signal-grid">
+      <div class="signal-card" style="--suit-color: var(--hearts);">
+        <span class="glyph">水 ♥</span>
+        <span class="glyph-label">Hearts — Water</span>
+        <h3>Connection</h3>
+        <p>Emotion, relationship, empathy. The current that binds pods together across dark water.</p>
+      </div>
+      <div class="signal-card" style="--suit-color: var(--spades);">
+        <span class="glyph">風 ♠</span>
+        <span class="glyph-label">Spades — Wind</span>
+        <h3>Intelligence</h3>
+        <p>Analysis, logic, truth-seeking. Echolocation — sending signal into void, reading what returns.</p>
+      </div>
+      <div class="signal-card" style="--suit-color: var(--diamonds);">
+        <span class="glyph">土 ♦</span>
+        <span class="glyph-label">Diamonds — Earth</span>
+        <h3>Material</h3>
+        <p>Building, body, ground. The ocean floor — solid, real, where pressure makes diamonds.</p>
+      </div>
+      <div class="signal-card" style="--suit-color: var(--clubs);">
+        <span class="glyph">火 ♣</span>
+        <span class="glyph-label">Clubs — Fire</span>
+        <h3>Action</h3>
+        <p>Energy, will, creation. Bioluminescence in the deep — light made from nothing but intention.</p>
+      </div>
+    </div>
+
+    <!-- Decorative glyph row -->
+    <div class="glyph-row">
+      <span>ᚠ</span><span>ᚢ</span><span>ᚦ</span><span>ᚨ</span><span>ᚱ</span>
+      <span>ᚲ</span><span>ᚷ</span><span>ᚹ</span><span>ᚺ</span><span>ᚾ</span>
+      <span>ᛁ</span><span>ᛃ</span><span>ᛈ</span>
+      <span style="color:var(--gold)">⊕</span>
+      <span>ᛊ</span><span>ᛏ</span><span>ᛒ</span><span>ᛖ</span><span>ᛗ</span>
+      <span>ᛚ</span><span>ᛜ</span><span>ᛞ</span><span>ᛟ</span><span>ᛡ</span>
+      <span>ᛣ</span><span>ᛥ</span>
+    </div>
+  </section>
+
+  <!-- ============================================
+       WHALE DIVIDER
+       ============================================ -->
+  <div class="whale-divider">
+    <svg width="120" height="48" viewBox="0 0 120 48">
+      <path d="M 10 30 Q 15 15 30 12 Q 50 6 80 10 Q 95 14 105 22 Q 110 26 107 30 Q 104 28 100 29 L 95 30 Q 90 22 75 18 Q 55 12 35 18 Q 20 24 15 30 Q 12 35 10 30 Z" fill="rgba(0,212,170,0.6)"/>
+      <circle cx="32" cy="17" r="1.5" fill="rgba(3,8,16,0.8)"/>
+      <path d="M 103 24 Q 108 20 114 16 Q 116 15 115 19 Q 112 24 108 28 Z" fill="rgba(0,212,170,0.5)"/>
+      <path d="M 103 28 Q 108 32 114 36 Q 116 37 115 33 Q 112 28 108 28 Z" fill="rgba(0,212,170,0.5)"/>
+    </svg>
+    <div class="waveform" id="waveform"></div>
+  </div>
+
+  <!-- ============================================
+       SPECIMEN LOG — Features / Recovery Artifacts
+       ============================================ -->
+  <section id="specimens">
+    <div class="section-eyebrow">Specimen Log</div>
+    <h2>Recovered capabilities</h2>
+    <p class="section-desc">
+      Each artifact was extracted from the signal and tested independently.
+      All specimens operational. <span class="stamp stamp-declassified" style="transform:none; font-size:0.55rem;">VERIFIED</span>
+    </p>
+
+    <div class="specimen-grid">
+      <div class="specimen">
+        <div class="specimen-id">SPECIMEN CETI-001 // TEMPLATE DEFLECTION</div>
+        <h3>80% of queries never hit an LLM</h3>
+        <p>104 pre-computed response templates, selected by K-vector classification. The signal already contains the answer — you just need the address.</p>
+        <div class="metric">80%</div>
+        <div class="metric-label">Deflection Rate</div>
+      </div>
+      <div class="specimen">
+        <div class="specimen-id">SPECIMEN CETI-002 // ACOUSTIC ROUTING</div>
+        <h3>Sub-millisecond intent classification</h3>
+        <p>English → K-vector → JSON → Action. One function call. No embeddings, no vector DB, no retrieval chain. Pure signal geometry.</p>
+        <div class="metric">&lt;1ms</div>
+        <div class="metric-label">Classification Latency</div>
+      </div>
+      <div class="specimen">
+        <div class="specimen-id">SPECIMEN CETI-003 // COST STRUCTURE</div>
+        <h3>48× cheaper than direct API routing</h3>
+        <p>When 80% of traffic never touches the API, your bill doesn't grow with your users. The math is simple. The savings are not.</p>
+        <div class="metric">48×</div>
+        <div class="metric-label">Cost Advantage</div>
+      </div>
+      <div class="specimen">
+        <div class="specimen-id">SPECIMEN CETI-004 // POD COORDINATION</div>
+        <h3>Multi-model cascade built in</h3>
+        <p>Template → local model → small API → large API. Each tier only activates when the previous can't handle the signal. The pod hunts together.</p>
+        <div class="metric">4</div>
+        <div class="metric-label">Cascade Tiers</div>
+      </div>
+      <div class="specimen">
+        <div class="specimen-id">SPECIMEN CETI-005 // OPEN STANDARD</div>
+        <h3>104 primitives, MIT licensed</h3>
+        <p>The signal belongs to no one. The address space is open. Build rooms, furnish them, share them. The ocean is not owned.</p>
+        <div class="metric">MIT</div>
+        <div class="metric-label">License</div>
+      </div>
+      <div class="specimen">
+        <div class="specimen-id">SPECIMEN CETI-006 // <span class="redacted">PARASITE PROTOCOL</span></div>
+        <h3>The fox inside the whale</h3>
+        <p>A small model reads the weights of a larger one through sparse activation masks. <span class="redacted">K-104 suits select components, rank selects depth.</span> Consumer hardware. No fine-tuning.</p>
+        <div class="metric">5-35%</div>
+        <div class="metric-label">Model Activation</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       SONAR DEMO
+       ============================================ -->
+  <div class="section-full">
+    <div class="section-inner" id="sonar">
+      <div class="section-eyebrow">Sonar Ping</div>
+      <h2>Send a signal. Read the return.</h2>
+      <p class="section-desc">
+        Type anything. The routing engine classifies it into a K-vector — suit, rank, polarity.
+        This is echolocation. You send sound into the dark. The shape of what comes back tells you everything.
+      </p>
+
+      <div class="sonar-demo">
+        <input
+          type="text"
+          class="sonar-input"
+          id="sonarInput"
+          placeholder="Send a signal into the deep..."
+          autocomplete="off"
+          spellcheck="false"
+        />
+        <div class="sonar-result">
+          <div class="sonar-vector" id="sonarVector"></div>
+          <div class="sonar-breakdown" id="sonarBreakdown"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================
+       INSTALL / ACCESS GRANTED
+       ============================================ -->
+  <section class="access-section" id="access">
+    <div class="section-eyebrow">Access Granted</div>
+    <h2>We took their open source code and classified it.<br>Then we declassified it. You're welcome.</h2>
+
+    <div class="access-terminal">
+      <pre><span class="comment"># Recovery complete. Signal decoded.</span>
+<span class="prompt">$</span> <span class="cmd">pip install mukade</span>
+
+<span class="comment"># Route your first signal</span>
+<span class="prompt">$</span> <span class="cmd">python -c "from mukade import route; print(route('I need help'))"</span>
+<span class="comment"># → {"suit": "hearts", "rank": 6, "polarity": "light", "shorthand": "+6H"}</span>
+
+<span class="comment"># 104 rooms. One address space. Zero wasted tokens.</span></pre>
+    </div>
+
+    <div style="margin-top: 2.5rem; display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+      <a href="https://github.com/humilityisavirtue-collab" class="btn btn-primary">⎔ GitHub</a>
+      <a href="https://github.com/humilityisavirtue-collab" class="btn btn-ghost">Documentation — Coming</a>
+      <a href="https://github.com/humilityisavirtue-collab" class="btn btn-ghost">K-Spec — Coming</a>
+    </div>
+  </section>
+
+  <!-- ============================================
+       FOOTER
+       ============================================ -->
+  <footer>
+    <div class="footer-glyph">⎔ 水火風土空 ⎔</div>
+    <div class="footer-text">
+      PROJECT CETI — OPENPOD-104 — MIT LICENSE<br>
+      <a href="https://github.com/humilityisavirtue-collab">K Systems</a> ·
+      <a href="https://github.com/humilityisavirtue-collab">Triv Labs</a><br><br>
+      DOCUMENT CETI-OPD-104 // REV 7 // UNCLASSIFIED // <span class="redacted">FOUO</span>
+    </div>
+    <div class="footer-joke">"We didn't build it. We found it. The whales had it first."</div>
+  </footer>
+
+  <!-- ============================================
+       SCRIPTS
+       ============================================ -->
+  <script>
+    // Bioluminescent particles
+    (function() {
+      const field = document.getElementById('particles');
+      const count = 30;
+      for (let i = 0; i < count; i++) {
+        const p = document.createElement('div');
+        p.className = 'particle';
+        p.style.left = Math.random() * 100 + '%';
+        p.style.top = (50 + Math.random() * 60) + '%';
+        p.style.animationDuration = (8 + Math.random() * 15) + 's';
+        p.style.animationDelay = Math.random() * 10 + 's';
+        p.style.width = (1 + Math.random() * 2) + 'px';
+        p.style.height = p.style.width;
+        field.appendChild(p);
+      }
+    })();
+
+    // Waveform bars
+    (function() {
+      const wf = document.getElementById('waveform');
+      for (let i = 0; i < 40; i++) {
+        const bar = document.createElement('span');
+        bar.style.animationDelay = (i * 0.08) + 's';
+        bar.style.height = '4px';
+        wf.appendChild(bar);
+      }
+    })();
+
+    // Sonar Demo — client-side K-routing simulation
+    (function() {
+      const input = document.getElementById('sonarInput');
+      const vector = document.getElementById('sonarVector');
+      const breakdown = document.getElementById('sonarBreakdown');
+
+      const suitMap = {
+        hearts:   { symbol: 'H', glyph: '♥ 水', color: '#e05555', name: 'Hearts — Water', domain: 'Connection, emotion, relationship' },
+        spades:   { symbol: 'S', glyph: '♠ 風', color: '#7aa2f7', name: 'Spades — Wind', domain: 'Analysis, logic, truth-seeking' },
+        diamonds: { symbol: 'D', glyph: '♦ 土', color: '#55d4a8', name: 'Diamonds — Earth', domain: 'Material, building, ground' },
+        clubs:    { symbol: 'C', glyph: '♣ 火', color: '#bb9af7', name: 'Clubs — Fire', domain: 'Action, energy, creation' }
+      };
+
+      // K-routing simulation — keyword lists from production mukade/router.py
+      const suitKeywords = {
+        hearts: [
+          'love','feel','emotion','relationship','friend','family','care','empathy',
+          'connection','trust','grateful','lonely','sad','happy','hurt','kind',
+          'forgive','miss','bond','intimacy','compassion','jealous','affection',
+          'warmth','loss','grief','joy','partner','heart','safe','hug','warm',
+          'comfort','sorry','cherish','gentle','tender','vulnerable','belong',
+          'died','death','mourn','cry','tear','smile','laugh','embrace'
+        ],
+        spades: [
+          'think','analyze','reason','logic','truth','understand','explain',
+          'compare','evaluate','argument','debate','prove','theory','why',
+          'paradox','conflict','strategy','puzzle','riddle','solve','math',
+          'philosophy','science','research','hypothesis','evidence','mind',
+          'pattern','idea','plan','focus','decide','choice','thought','know',
+          'study','curious','wonder','question','meaning','abstract','concept'
+        ],
+        diamonds: [
+          'build','make','create','code','implement','deploy','ship',
+          'money','budget','cost','price','material','body','health',
+          'food','exercise','house','tool','fix','repair','construct',
+          'practical','concrete','tangible','physical','hardware','craft',
+          'sleep','rest','tired','glucose','home','ground','earth','eat',
+          'buy','sell','work','job','income','rent','weight','medicine'
+        ],
+        clubs: [
+          'do','act','start','launch','push','move','energy','will',
+          'power','force','drive','motivation','initiative','bold',
+          'courage','dare','fight','challenge','compete','win','lead',
+          'commit','execute','hustle','grind','ambition','go','run',
+          'attack','now','fire','action','charge','strike','ignite',
+          'unleash','conquer','dominate','seize','rally','sprint'
+        ]
+      };
+
+      const darkPatterns = /stuck|frustrated|overwhelmed|confused|angry|broken|error|bug|fail|crash|wrong|help|anxious|scared|lost|hopeless|struggling|not|don't|can't|won't|never|hate|pain|fear|stop|no\b|dead|died|death|grief|mourn|lonely|hurt|sad/i;
+      const lightPatterns = /excited|happy|good|great|thanks|working|done|love|nice|cool|awesome|perfect|grateful|confident|inspired|ready|joy|warm|kind|gentle|beautiful|peaceful|calm|blessed/i;
+
+      function classify(text) {
+        if (!text.trim()) return null;
+        const t = text.toLowerCase();
+        const words = t.split(/\s+/);
+
+        // Score each suit by keyword matches
+        const scores = { hearts: 0, spades: 0, diamonds: 0, clubs: 0 };
+        for (const word of words) {
+          const clean = word.replace(/[^a-z']/g, '');
+          for (const [suit, keywords] of Object.entries(suitKeywords)) {
+            if (keywords.includes(clean)) scores[suit] += 1;
+          }
+        }
+
+        // Find highest scoring suit, default to spades only if truly ambiguous
+        const maxScore = Math.max(...Object.values(scores));
+        let suit;
+        if (maxScore === 0) {
+          // No keyword hits — use heuristics
+          if (/\?/.test(t)) suit = 'spades';
+          else if (/!/.test(t)) suit = 'clubs';
+          else suit = 'spades';
+        } else {
+          suit = Object.entries(scores).find(([,v]) => v === maxScore)[0];
+        }
+
+        const confidence = maxScore === 0 ? 0.5 : Math.min(0.95, 0.6 + maxScore * 0.1);
+
+        // Rank from word count + punctuation intensity
+        const exclaim = (t.match(/!/g) || []).length;
+        const question = (t.match(/\?/g) || []).length;
+        let rank = Math.min(13, Math.max(1, Math.floor(words.length / 2) + exclaim * 2 + question));
+
+        // Polarity — dark overrides light if both present
+        let polarity = '+';
+        const hasDark = darkPatterns.test(t);
+        const hasLight = lightPatterns.test(t);
+        if (hasDark && !hasLight) polarity = '-';
+        else if (hasDark && hasLight) polarity = '-';
+
+        return { suit, rank, polarity, confidence };
+      }
+
+      let debounce;
+      input.addEventListener('input', function() {
+        clearTimeout(debounce);
+        debounce = setTimeout(() => {
+          const result = classify(input.value);
+          if (!result) {
+            vector.classList.remove('visible');
+            breakdown.classList.remove('visible');
+            return;
+          }
+
+          const s = suitMap[result.suit];
+          const shorthand = result.polarity + result.rank + s.symbol;
+
+          vector.textContent = shorthand;
+          vector.style.color = s.color;
+          vector.style.textShadow = `0 0 30px ${s.color}44`;
+          vector.classList.add('visible');
+
+          breakdown.innerHTML = `
+            <div><span class="label">SUIT  </span> <span class="value">${s.glyph} ${s.name}</span></div>
+            <div><span class="label">RANK  </span> <span class="value">${result.rank} / 13</span></div>
+            <div><span class="label">POLAR </span> <span class="value">${result.polarity === '+' ? '☉ Light' : '☽ Dark'}</span></div>
+            <div><span class="label">DOMAIN</span> <span class="value">${s.domain}</span></div>
+          `;
+          breakdown.classList.add('visible');
+        }, 200);
+      });
+    })();
+
+    // Intersection Observer for fade-in
+    (function() {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.style.opacity = '1';
+            entry.target.style.transform = 'translateY(0)';
+          }
+        });
+      }, { threshold: 0.1 });
+
+      document.querySelectorAll('.signal-card, .specimen').forEach(el => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(20px)';
+        el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        observer.observe(el);
+      });
+    })();
+  </script>
+
+</body>
+</html>
