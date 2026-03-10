@@ -179,6 +179,8 @@ Tools exposed: `klaw_route`, `klaw_classify`, `klaw_stats`
 
 ## Research
 
+![K-104 activation trace — suit clusters in transformer activation space](docs/activation_trace_scatter.png)
+
 - [Activation trace results](docs/ACTIVATION_TRACE.md) — suit + polarity clustering, silhouette scores, methodology
 - [Routing tier breakdown](docs/ROUTING_TIERS.md) — 8 tiers, hit rates, cost per tier
 - [Architecture overview](docs/ARCHITECTURE.md) — system design, component map

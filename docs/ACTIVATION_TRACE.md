@@ -10,6 +10,10 @@ K-104 maps every AI query to one of 104 semantic coordinates: four suits (Hearts
 
 We tested this. Here's what we found.
 
+![K-104 activation trace scatter plot — suit clusters in PCA space](activation_trace_scatter.png)
+
+*PCA of 104 hidden states from hermes3:8b. Circles = light polarity. ✕ = dark. Colors = suits. Left/right split is polarity (sil=0.393). Color clustering within each half is suit (sil=0.312).*
+
 ---
 
 ## Setup
