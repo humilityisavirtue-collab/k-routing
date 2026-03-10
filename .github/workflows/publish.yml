@@ -13,31 +13,57 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - run: pip install pytest && pip install -e . && python -m pytest tests/ -v
+      - run: |
+          cd openclaw && pip install -e ".[crypto]" && pip install pytest && python -m pytest tests/ -v
 
-  publish:
+  publish-openclaw:
+    name: Publish klaw-router
     needs: test
     runs-on: ubuntu-latest
     environment: pypi
     permissions:
-      id-token: write  # for trusted publishing (no token needed if configured on PyPI)
+      id-token: write
 
     steps:
       - uses: actions/checkout@v4
-
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.12"
+          python-version: "3.11"
 
-      - name: Build package
+      - name: Build klaw-router
         run: |
-          pip install hatchling build
-          python -m build
+          cd openclaw
+          pip install hatchling
+          python -m hatchling build
 
-      - name: Publish to PyPI
+      - name: Publish klaw-router
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
-          # Uses trusted publishing (OIDC) by default — no token needed if configured
-          # Fallback: set PYPI_API_TOKEN secret and uncomment below
-          # password: ${{ secrets.PYPI_API_TOKEN }}
+          packages-dir: openclaw/dist/
+          skip-existing: true
+
+  publish-openpod:
+    name: Publish openpod
+    needs: test
+    runs-on: ubuntu-latest
+    environment: pypi
+    permissions:
+      id-token: write
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Build openpod
+        run: |
+          cd openpod
+          pip install hatchling
+          python -m hatchling build
+
+      - name: Publish openpod
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          packages-dir: openpod/dist/
           skip-existing: true

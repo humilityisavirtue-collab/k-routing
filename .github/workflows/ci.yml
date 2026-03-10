@@ -8,6 +8,7 @@ on:
 
 jobs:
   test:
+    name: Test Python ${{ matrix.python-version }}
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -21,14 +22,25 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
-      - name: Install dependencies
+      - name: Install openclaw (editable)
         run: |
-          python -m pip install --upgrade pip
-          pip install pytest hatchling
-          pip install -e ".[crypto]" 2>/dev/null || pip install -e . || true
+          cd openclaw
+          pip install -e ".[crypto]"
+          pip install pytest
 
       - name: Run tests
-        run: python -m pytest tests/ -v --tb=short
+        run: |
+          cd openclaw
+          python -m pytest tests/ -v --tb=short
 
       - name: Verify CLI entrypoint
-        run: python -m klaw --help 2>/dev/null || python -c "from klaw.router import KlawRouter; r = KlawRouter(); print('router OK')"
+        run: python -c "from klaw.router import KlawRouter; r = KlawRouter(); print('router OK')"
+        working-directory: openclaw
+
+      - name: Install openpod (editable)
+        run: |
+          cd openpod
+          pip install -e .
+
+      - name: Smoke-test openpod
+        run: python -c "from openpod import Pod; print('openpod OK')"

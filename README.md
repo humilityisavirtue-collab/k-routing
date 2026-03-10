@@ -1,5 +1,11 @@
 # 🦊 K-104 — Semantic AI Routing via Playing Card Geometry
 
+[![CI](https://github.com/humilityisavirtue-collab/k-routing/actions/workflows/ci.yml/badge.svg)](https://github.com/humilityisavirtue-collab/k-routing/actions/workflows/ci.yml)
+[![PyPI](https://img.shields.io/pypi/v/klaw-router.svg?color=gold&label=klaw-router)](https://pypi.org/project/klaw-router/)
+[![PyPI](https://img.shields.io/pypi/v/openpod.svg?color=teal&label=openpod)](https://pypi.org/project/openpod/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Python](https://img.shields.io/badge/python-3.10%2B-blue)](https://pypi.org/project/klaw-router/)
+
 > Route AI queries to the cheapest model that can answer them.
 > Blended cost: **$0.003/1K tokens** — 48× cheaper than GPT-4 Opus.
 > Empirically verified in transformer activation space.
@@ -173,7 +179,9 @@ Tools exposed: `klaw_route`, `klaw_classify`, `klaw_stats`
 
 ## Research
 
-- Activation trace results (suit + polarity clustering): `docs/ACTIVATION_TRACE.md`
+- [Activation trace results](docs/ACTIVATION_TRACE.md) — suit + polarity clustering, silhouette scores, methodology
+- [Routing tier breakdown](docs/ROUTING_TIERS.md) — 8 tiers, hit rates, cost per tier
+- [Architecture overview](docs/ARCHITECTURE.md) — system design, component map
 - K-space geometry paper (arXiv draft): coming soon
 - K-143 whale extension: concept paper linked in docs
 
