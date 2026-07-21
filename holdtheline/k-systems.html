@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>K-Systems — AI &amp; Accessibility for San Diego Business</title>
+  <meta name="description" content="Practical AI and website accessibility for San Diego small business. Free WCAG accessibility scan, custom AI chatbots, and workflow automation — built and delivered by one engineer.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;900&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #000; --surface: #0a0a0a; --border: #1a1a1a;
+      --text: #e8e8e8; --muted: #888; --dim: #555; --accent: #fff;
+    }
+    body {
+      font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text);
+      line-height: 1.6; -webkit-font-smoothing: antialiased;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+      background-size: 20px 20px;
+    }
+    a { color: inherit; text-decoration: none; }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; width: 100%; z-index: 100;
+      padding: 1rem 2.5rem;
+      display: flex; justify-content: space-between; align-items: center;
+      background: rgba(0,0,0,0.8); backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-brand { font-weight: 700; font-size: 0.85rem; letter-spacing: 0.15em; text-transform: uppercase; }
+    .nav-links { display: flex; gap: 1.5rem; }
+    .nav-links a { font-size: 0.8rem; color: var(--dim); transition: color 0.2s; }
+    .nav-links a:hover { color: var(--text); }
+
+    /* SECTIONS */
+    .section {
+      padding: 4rem 2rem;
+      max-width: 900px; margin: 0 auto;
+    }
+    .section + .section { border-top: 1px solid var(--border); }
+    .section-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--dim); margin-bottom: 0.75rem;
+    }
+    .section-headline {
+      font-size: 1.6rem; font-weight: 700; letter-spacing: -0.02em;
+      margin-bottom: 0.5rem; line-height: 1.2;
+    }
+    .section-intro {
+      font-size: 0.95rem; color: var(--muted); line-height: 1.8;
+      max-width: 640px; margin-bottom: 2.5rem;
+    }
+    .jargon-def {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem; color: var(--dim); font-style: italic; line-height: 1.7;
+    }
+
+    /* HERO */
+    .hero {
+      padding: 8rem 2rem 2rem;
+      max-width: 900px; margin: 0 auto;
+    }
+    .hero-eyebrow {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--dim); margin-bottom: 1rem;
+    }
+    .hero-name {
+      font-size: 3rem; font-weight: 900; letter-spacing: -0.03em;
+      line-height: 1.1; margin-bottom: 0.75rem;
+    }
+    .hero-tagline {
+      font-size: 1.2rem; font-weight: 300; color: var(--muted); margin-bottom: 1.5rem;
+      max-width: 560px;
+    }
+    .hero-bio {
+      font-size: 0.95rem; color: var(--muted); line-height: 1.8; max-width: 600px;
+    }
+
+    /* TWO HALVES */
+    .halves {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 1px; background: var(--border); border: 1px solid var(--border);
+    }
+    .half { background: var(--bg); padding: 2.5rem; }
+    .half-icon {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--dim); margin-bottom: 1.25rem;
+    }
+    .half-name { font-size: 1.4rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .half-pitch {
+      font-size: 0.95rem; color: var(--muted); line-height: 1.7; margin-bottom: 1.5rem;
+    }
+    .half-features { list-style: none; }
+    .half-features li {
+      font-size: 0.85rem; color: var(--muted); padding: 0.5rem 0;
+      border-bottom: 1px solid var(--border);
+      display: flex; gap: 0.75rem; align-items: baseline;
+    }
+    .half-features li:last-child { border-bottom: none; }
+    .feat-bullet {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.55rem; color: var(--dim); flex-shrink: 0;
+    }
+    .half-cta {
+      display: inline-block; margin-top: 1.5rem;
+      padding: 0.6rem 1.5rem; border: 1px solid var(--border);
+      font-size: 0.8rem; transition: all 0.2s;
+    }
+    .half-cta:hover { border-color: #fff; background: rgba(255,255,255,0.05); }
+
+    /* PRICING */
+    .pricing-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 1px; background: var(--border); border: 1px solid var(--border);
+    }
+    .price-card { background: var(--bg); padding: 1.75rem; display: flex; flex-direction: column; }
+    .price-card.featured { background: var(--surface); }
+    .price-tier {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--dim); margin-bottom: 0.75rem;
+    }
+    .price-amount {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.8rem; font-weight: 700; margin-bottom: 0.15rem;
+    }
+    .price-period { font-size: 0.75rem; color: var(--dim); margin-bottom: 1rem; }
+    .price-features { list-style: none; flex: 1; }
+    .price-features li {
+      font-size: 0.78rem; color: var(--muted); padding: 0.35rem 0;
+    }
+    .price-cta {
+      display: inline-block; margin-top: 1.25rem;
+      padding: 0.55rem 1.4rem; border: 1px solid var(--border);
+      font-size: 0.78rem; text-align: center; transition: all 0.2s;
+    }
+    .price-cta:hover { border-color: #fff; background: rgba(255,255,255,0.05); }
+    .price-card.featured .price-cta { border-color: #fff; }
+
+    /* USE CASES / SERVICES */
+    .use-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 1px; background: var(--border); border: 1px solid var(--border);
+    }
+    .use-card { background: var(--bg); padding: 1.75rem; }
+    .use-title { font-size: 0.95rem; font-weight: 600; margin-bottom: 0.4rem; }
+    .use-desc { font-size: 0.82rem; color: var(--muted); line-height: 1.6; }
+    .use-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.55rem; color: var(--dim); margin-top: 0.75rem; display: block;
+    }
+
+    /* CTA */
+    .cta-box { display: flex; justify-content: space-between; align-items: center; }
+    .cta-text { font-size: 1.2rem; font-weight: 600; }
+    .cta-sub { font-size: 0.85rem; color: var(--muted); margin-top: 0.25rem; }
+    .btn {
+      padding: 0.75rem 2rem; border: 1px solid var(--border);
+      font-size: 0.8rem; font-weight: 500; color: var(--text);
+      transition: all 0.2s; display: inline-block; flex-shrink: 0;
+    }
+    .btn:hover { border-color: #fff; background: rgba(255,255,255,0.05); }
+
+    footer {
+      padding: 3rem 2rem; text-align: center;
+      border-top: 1px solid var(--border);
+      font-size: 0.75rem; color: var(--dim);
+    }
+    footer a:hover { color: var(--text); }
+
+    @media (max-width: 700px) {
+      .halves { grid-template-columns: 1fr; }
+      .pricing-grid { grid-template-columns: 1fr; }
+      .use-grid { grid-template-columns: 1fr; }
+      .cta-box { flex-direction: column; gap: 1rem; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+<nav>
+  <div class="nav-brand">K-Systems</div>
+  <div class="nav-links">
+    <a href="#services">Services</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#about">About</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
+
+<!-- ====== HERO ====== -->
+<div class="hero">
+  <div class="hero-eyebrow">San Diego · AI &amp; Accessibility for Local Business</div>
+  <div class="hero-name">K-Systems</div>
+  <div class="hero-tagline">
+    Practical AI and accessibility — built, run, and delivered by one engineer.
+  </div>
+  <p class="hero-bio">
+    I help San Diego businesses fix their websites, answer customers around the clock,
+    and cut the busywork out of the workday. Real tools I build myself — not reselling,
+    not vaporware. You talk to the person who does the work.
+    <br><br>
+    Start where it's cheapest: a <strong>free accessibility scan</strong> of your site.
+  </p>
+</div>
+
+<!-- ====== FLAGSHIP: FIX.KIT ====== -->
+<div class="section" id="services">
+  <div class="section-label">Flagship Service</div>
+  <div class="section-headline">Fix.Kit — Website Accessibility</div>
+  <div class="section-intro">
+    California's Unruh Civil Rights Act makes web accessibility a legal requirement — and
+    an inaccessible site quietly turns away customers with disabilities. Fix.Kit finds the
+    gaps and hands you the exact fixes. No threats, no scare tactics — just: here's where
+    you stand, and here's how to get ahead of it.
+  </div>
+  <div class="halves">
+    <div class="half">
+      <div class="half-icon">How it works</div>
+      <div class="half-name">Scan → Report → Fix</div>
+      <ul class="half-features">
+        <li><span class="feat-bullet">&gt;</span> Free scan: a score (0&ndash;100) across 19 WCAG&nbsp;2.1 checks in seconds</li>
+        <li><span class="feat-bullet">&gt;</span> A prioritized report &mdash; the specific fix for each issue</li>
+        <li><span class="feat-bullet">&gt;</span> ~13 of the checks are auto-fixable; the rest I flag honestly</li>
+        <li><span class="feat-bullet">&gt;</span> Copy-paste code for you or your dev &mdash; no site access needed</li>
+        <li><span class="feat-bullet">&gt;</span> Optional monthly monitoring for new violations</li>
+      </ul>
+      <a class="half-cta" href="#contact">Get your free scan &rarr;</a>
+    </div>
+    <div class="half">
+      <div class="half-icon">What it checks</div>
+      <div class="half-name">19 WCAG 2.1 criteria</div>
+      <div class="half-pitch">
+        Alt text, color contrast, form labels, ARIA landmarks, heading structure, page
+        language, skip-to-content links, link text, and page titles &mdash; each mapped to
+        a specific WCAG&nbsp;2.1 success criterion.
+      </div>
+      <p class="jargon-def">
+        Anything it can't auto-fix &mdash; complex image descriptions, PDFs, third-party
+        widgets &mdash; it flags plainly. No false confidence. You'll know exactly what's left.
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- ====== MORE SERVICES ====== -->
+<div class="section">
+  <div class="section-label">Also Available</div>
+  <div class="section-headline">More ways I can help your business.</div>
+  <div class="use-grid">
+    <div class="use-card">
+      <div class="use-title">Custom AI Chatbots</div>
+      <div class="use-desc">
+        A chatbot that actually knows your business &mdash; answers customer questions,
+        handles FAQs, and books work around the clock. Trained on your info, runs cheap.
+      </div>
+      <span class="use-tag">Live demos for trades, legal &amp; accounting</span>
+    </div>
+    <div class="use-card">
+      <div class="use-title">Workflow Automation</div>
+      <div class="use-desc">
+        Whatever's eating your staff's time &mdash; quotes, scheduling, paperwork,
+        follow-ups &mdash; I build the automation that does it for you, and show you how it works.
+      </div>
+      <span class="use-tag">Built to fit how you already work</span>
+    </div>
+    <div class="use-card">
+      <div class="use-title">Compliance Software</div>
+      <div class="use-desc">
+        Aerospace/defense background &mdash; I also build AS9100 &amp; quality-management
+        tooling for shops that need traceable, audit-ready records.
+      </div>
+      <span class="use-tag">For manufacturing &amp; regulated work</span>
+    </div>
+  </div>
+</div>
+
+<!-- ====== PRICING ====== -->
+<div class="section" id="pricing">
+  <div class="section-label">Pricing</div>
+  <div class="section-headline">Start free. Pay when it's worth it.</div>
+  <div class="section-intro">
+    The scan is always free &mdash; you see your score with no obligation. Everything
+    below is flat and up-front. Custom builds are quoted after a quick conversation.
+  </div>
+  <div class="pricing-grid">
+    <div class="price-card">
+      <div class="price-tier">Free Scan</div>
+      <div class="price-amount">$0</div>
+      <div class="price-period">no obligation</div>
+      <ul class="price-features">
+        <li>Full WCAG 2.1 score report</li>
+        <li>19-criteria breakdown</li>
+        <li>Printed or emailed</li>
+      </ul>
+    </div>
+    <div class="price-card featured">
+      <div class="price-tier">Audit + Fix List</div>
+      <div class="price-amount">$295</div>
+      <div class="price-period">one-time</div>
+      <ul class="price-features">
+        <li>Full report, prioritized by impact</li>
+        <li>The specific fix for each issue</li>
+        <li>Copy-paste code &mdash; no site access</li>
+        <li>Re-scan to confirm the score moved</li>
+      </ul>
+      <a class="price-cta" href="#contact">Get started &rarr;</a>
+    </div>
+    <div class="price-card">
+      <div class="price-tier">Monthly Monitor</div>
+      <div class="price-amount">$49</div>
+      <div class="price-period">per month</div>
+      <ul class="price-features">
+        <li>Weekly automated re-scans</li>
+        <li>Alerts on new violations</li>
+        <li>Quarterly compliance report</li>
+      </ul>
+    </div>
+    <div class="price-card">
+      <div class="price-tier">Custom Build</div>
+      <div class="price-amount">Quoted</div>
+      <div class="price-period">chatbots · automation</div>
+      <ul class="price-features">
+        <li>Scoped to your needs</li>
+        <li>Full remediation from $1,200</li>
+        <li>You own what I build</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ====== ABOUT ====== -->
+<div class="section" id="about">
+  <div class="section-label">About</div>
+  <div class="section-headline">One engineer. Real tools. San Diego.</div>
+  <div class="section-intro">
+    I'm Patrick Moore &mdash; a software engineer with an aerospace configuration-management
+    background, building AI and accessibility tools out of San Diego. I don't resell other
+    people's software; I build what I deliver, so the person who scopes your job is the person
+    who does it. Straight talk, honest scope, no lock-in.
+  </div>
+</div>
+
+<!-- ====== CTA / CONTACT ====== -->
+<div class="section" id="contact">
+  <div class="cta-box">
+    <div>
+      <div class="cta-text">Know your accessibility score today — free.</div>
+      <div class="cta-sub">A scan takes seconds. No obligation, no sales pressure.</div>
+    </div>
+    <a class="btn" href="mailto:kit@holdtheline.tech">Email for a free scan &rarr;</a>
+  </div>
+  <p style="text-align:center;margin-top:2rem;color:var(--muted);font-size:0.9rem">
+    Call or text: <strong style="color:var(--text)">619-962-9818</strong>
+    &nbsp;&middot;&nbsp; kit@holdtheline.tech
+  </p>
+</div>
+
+<footer>
+  <p>&copy; 2026 K-Systems &middot; Patrick Moore &middot; San Diego, CA &middot;
+  <a href="https://github.com/humilityisavirtue-collab">GitHub</a></p>
+</footer>
+</body>
+</html>
