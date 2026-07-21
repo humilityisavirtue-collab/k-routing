@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Patrick Moore — Software / AI Engineer</title>
+  <meta name="description" content="Patrick Moore — Software / AI Engineer. Multi-agent orchestration, LLM inference, offline-first products." />
+  <meta property="og:title" content="Patrick Moore — Software / AI Engineer" />
+  <meta property="og:description" content="I build the unglamorous infrastructure that makes AI systems reliable: routing, state, audit, and on-device acceleration." />
+  <style>
+    :root {
+      --bg:#0b0d10; --panel:#14171c; --border:#232830;
+      --text:#e7e9ec; --muted:#8b929c; --accent:#d4a843; --accent-soft:#d4a84322;
+    }
+    * { box-sizing: border-box; }
+    html { background: var(--bg); }
+    body {
+      margin:0; background:var(--bg); color:var(--text);
+      font-family: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+      line-height:1.6; -webkit-font-smoothing:antialiased;
+    }
+    main { max-width:820px; margin:0 auto; padding:3rem 1.5rem 4rem; }
+    a { color:var(--accent); text-decoration:none; border-bottom:1px solid transparent; transition:border-color .15s; }
+    a:hover { border-bottom-color:var(--accent); }
+    .topnav { font-family:ui-monospace,monospace; font-size:.82rem; color:var(--muted); margin-bottom:2.5rem; }
+    .topnav a { color:var(--muted); }
+    .topnav a:hover { color:var(--accent); }
+    .hero { border-bottom:1px solid var(--border); padding-bottom:2.5rem; margin-bottom:3rem; }
+    h1 { font-size:2.6rem; margin:0 0 .2rem; letter-spacing:-.02em; }
+    .role { color:var(--accent); font-family:ui-monospace,monospace; font-size:.95rem; margin:0 0 1.4rem; text-transform:lowercase; }
+    .tagline { font-size:1.12rem; color:#cdd2d9; margin:0 0 1.4rem; max-width:64ch; }
+    .meta { color:var(--muted); font-size:.9rem; margin:0 0 1rem; }
+    .links { font-family:ui-monospace,monospace; font-size:.9rem; }
+    .dot { color:var(--border); margin:0 .6rem; }
+    section { margin-bottom:3.5rem; }
+    h2 { font-size:.8rem; text-transform:uppercase; letter-spacing:.16em; color:var(--muted); font-weight:600; margin:0 0 1.6rem; }
+    .grid { display:flex; flex-direction:column; gap:1.2rem; }
+    .card { background:var(--panel); border:1px solid var(--border); border-radius:12px; padding:1.6rem 1.7rem; transition:border-color .2s, transform .2s; }
+    .card:hover { border-color:#3a4150; transform:translateY(-2px); }
+    .card-head { display:flex; gap:1rem; align-items:baseline; margin-bottom:1rem; }
+    .num { font-family:ui-monospace,monospace; color:var(--accent); font-size:.95rem; opacity:.8; }
+    h3 { margin:0; font-size:1.3rem; letter-spacing:-.01em; }
+    h3 a.title-link { color:var(--text); border-bottom:none; }
+    h3 a.title-link:hover { color:var(--accent); }
+    .arrow { color:var(--accent); font-size:.95rem; opacity:0; transition:opacity .18s; }
+    .card:hover .arrow { opacity:1; }
+    .sub { margin:.1rem 0 0; color:var(--muted); font-size:.85rem; font-family:ui-monospace,monospace; }
+    .stack-row { list-style:none; display:flex; flex-wrap:wrap; gap:.4rem; padding:0; margin:0 0 1rem; }
+    .stack-row li { background:var(--accent-soft); color:var(--accent); border-radius:5px; padding:.15rem .55rem; font-size:.74rem; font-family:ui-monospace,monospace; }
+    .blurb { margin:0 0 1.2rem; color:#cdd2d9; font-size:.97rem; }
+    .points { margin:0; display:grid; grid-template-columns:max-content 1fr; gap:.45rem 1rem; }
+    .points dt { color:var(--accent); font-size:.82rem; font-weight:600; font-family:ui-monospace,monospace; white-space:nowrap; }
+    .points dd { margin:0; color:var(--muted); font-size:.9rem; }
+    .footer-row { display:flex; flex-wrap:wrap; align-items:center; gap:.6rem; margin-top:1.3rem; }
+    .btn { border:1px solid var(--accent); border-radius:6px; padding:.35rem .8rem; font-size:.82rem; font-family:ui-monospace,monospace; }
+    .btn:hover { background:var(--accent-soft); border-bottom-color:var(--accent); }
+    .tag { color:var(--muted); font-size:.78rem; font-style:italic; }
+    .also { color:#cdd2d9; }
+    .stack-list { margin:0; display:grid; grid-template-columns:max-content 1fr; gap:.6rem 1.4rem; }
+    .stack-list dt { color:var(--accent); font-family:ui-monospace,monospace; font-size:.85rem; white-space:nowrap; }
+    .stack-list dd { margin:0; color:#cdd2d9; font-size:.92rem; }
+    .how { color:#cdd2d9; font-size:1.02rem; max-width:66ch; }
+    footer { border-top:1px solid var(--border); padding-top:2rem; color:var(--muted); font-family:ui-monospace,monospace; font-size:.85rem; }
+    @media (max-width:560px) {
+      main { padding:2.2rem 1.1rem; }
+      h1 { font-size:2.1rem; }
+      .points, .stack-list { grid-template-columns:1fr; gap:.2rem; }
+    }
+  </style>
+</head>
+<body>
+<main>
+  <nav class="topnav"><a href="/">← holdtheline.tech</a> &nbsp;·&nbsp; <a href="/resume">résumé</a></nav>
+
+  <header class="hero">
+    <h1>Patrick Moore</h1>
+    <p class="role">software / ai engineer</p>
+    <p class="tagline">Systems and applied-AI engineer focused on multi-agent orchestration, LLM inference, and shipping offline-first products. I build the unglamorous infrastructure that makes AI systems reliable: routing, state, audit, and on-device acceleration.</p>
+    <p class="meta">Remote · Contract or founding-team · San Diego, CA (PST)</p>
+    <p class="links">
+      <a href="mailto:kit@holdtheline.tech">kit@holdtheline.tech</a>
+      <span class="dot">·</span>
+      <a href="https://github.com/humilityisavirtue-collab" target="_blank" rel="noopener">@humilityisavirtue-collab</a>
+    </p>
+  </header>
+
+  <section>
+    <h2>Selected Work</h2>
+    <div class="grid">
+
+      <article class="card">
+        <div class="card-head"><span class="num">01</span><div>
+          <h3>Self-Built AI Coding Agent</h3>
+          <p class="sub">terminal · multi-provider</p>
+        </div></div>
+        <ul class="stack-row"><li>Python</li><li>~15.5K LOC</li><li>agentic tool-use loop</li><li>MCP server</li><li>multi-provider routing</li></ul>
+        <p class="blurb">A terminal-based AI coding agent — functionally a self-made alternative to Claude Code / Cursor. Takes natural language, plans, and acts through a tool-use loop: read / write / edit files, run shell commands, and semantic + literal code search. Exposed as an MCP server, in active daily use.</p>
+        <dl class="points">
+          <dt>Why I built it</dt><dd>I wanted full control over the hooks, the agent loop, and tool dispatch — the extension points existing agents don't expose. Owning the loop end-to-end made the rest possible.</dd>
+          <dt>Loop-detection</dt><dd>A "doom-loop" abort that doesn't just check for repetition — it asks whether each turn makes progress. A true loop goes nowhere and gets killed; productive iteration revisits the same ground but advances.</dd>
+          <dt>Tiered budgets</dt><dd>free → enterprise: 3 / 8 / 24 / 64 max-turns, scaling RAG-file count, context budget, and history recall per tier.</dd>
+          <dt>Multi-provider</dt><dd>Routing across Claude, Gemini, local Ollama, OpenAI, and Groq. Undo on every file write, append-only audit log.</dd>
+        </dl>
+        <div class="footer-row"><span class="tag">Source available for walkthrough (private repo)</span></div>
+      </article>
+
+      <article class="card">
+        <div class="card-head"><span class="num">02</span><div>
+          <h3>Multi-Agent Orchestration System</h3>
+          <p class="sub">typed message-bus · compile-time validated</p>
+        </div></div>
+        <ul class="stack-row"><li>Python</li><li>typed conditional edge-router</li><li>event-driven state</li><li>static topology linter</li><li>cost + liveness tracking</li></ul>
+        <p class="blurb">The system the coding agent runs within: role-specialized agents coordinating over a typed message bus. A first-match dispatcher routes work on (source × message-type) to a target agent across ~16 message types and 4 trust tiers, with per-agent cost + liveness tracking and an append-only audit log — the "deterministic backbone, LLM at the nodes" pattern production frameworks converged on in 2026.</p>
+        <dl class="points">
+          <dt>Rigor</dt><dd>The router topology is validated at commit time by a linter I wrote — role-exists, trust-valid, dead-rule, and first-match-shadow detection — proven non-vacuous against a deliberately-broken fixture: the real config passes, planted defects fail.</dd>
+          <dt>Highlight</dt><dd>The tradeoffs between a shared mutable state store and message-passing, and agent liveness/failure detection — don't declare a worker dead from a single stale signal.</dd>
+        </dl>
+      </article>
+
+      <article class="card">
+        <div class="card-head"><span class="num">03</span><div>
+          <h3>LLM Inference &amp; Quantization Runtime</h3>
+          <p class="sub">framework-free forward pass</p>
+        </div></div>
+        <ul class="stack-row"><li>custom quantized format</li><li>on-device NPU</li><li>fidelity gate</li></ul>
+        <p class="blurb">A forward-pass runtime that runs transformer models (Hermes-3-8B class) without a heavyweight ML framework, from a custom circuit-aware quantized format, with a fidelity gate that verifies outputs against a reference.</p>
+        <dl class="points">
+          <dt>Problem</dt><dd>Running capable models on constrained/heterogeneous hardware (consumer GPU + AMD NPU) where the naive fp16 path doesn't fit.</dd>
+          <dt>Decisions</dt><dd>Treat the quantization format as a precision codec — naive low-bit is too lossy; a hybrid-precision tier runs in ~12GB and passes a fidelity gate, with a calibrated quantizer as the next step.</dd>
+          <dt>Highlight</dt><dd>The memory math (why fp8→fp16 upcast doubles footprint and OOMs), and offloading the right ops to NPU vs CPU vs GPU.</dd>
+        </dl>
+        <div class="footer-row"><span class="tag">Proprietary</span></div>
+      </article>
+
+      <article class="card">
+        <div class="card-head"><span class="num">04</span><div>
+          <h3><a class="title-link" href="https://saga-logo-ai.vercel.app" target="_blank" rel="noopener">Saga·Logo·AI <span class="arrow">↗</span></a></h3>
+          <p class="sub">browser-native AI writing tool</p>
+        </div></div>
+        <ul class="stack-row"><li>TypeScript</li><li>Svelte</li><li>WebGPU (web-llm)</li><li>Tiptap/ProseMirror</li><li>Yjs CRDT</li><li>BYOK</li></ul>
+        <p class="blurb">A writing tool with two distinct AI voices and a third that synthesizes between them — running models locally in the browser via WebGPU, with bring-your-own-key for hosted models and a guarantee that prompts never proxy through a server.</p>
+        <dl class="points">
+          <dt>Problem</dt><dd>AI writing assistance without sending your work to someone else's servers — local-first by architecture, not policy.</dd>
+          <dt>Decisions</dt><dd>Browser-side LLM via WebGPU so the default path needs no key and no network; a real ProseMirror editor instead of a chatbox; Yjs CRDTs for serverless collaborative editing.</dd>
+        </dl>
+        <div class="footer-row">
+          <a class="btn" href="https://saga-logo-ai.vercel.app" target="_blank" rel="noopener">Live demo ↗</a>
+          <a class="btn" href="https://github.com/humilityisavirtue-collab/saga-logo-ai" target="_blank" rel="noopener">Source ↗</a>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-head"><span class="num">05</span><div>
+          <h3><a class="title-link" href="https://held-eta.vercel.app" target="_blank" rel="noopener">Held <span class="arrow">↗</span></a></h3>
+          <p class="sub">offline-first PWA</p>
+        </div></div>
+        <ul class="stack-row"><li>SvelteKit 2</li><li>Svelte 5 runes</li><li>Supabase</li><li>AES-256-GCM</li><li>Vercel</li></ul>
+        <p class="blurb">A production PWA that works fully offline via localStorage and syncs to the cloud when authenticated, with user data encrypted at the field level before it ever leaves the device.</p>
+        <dl class="points">
+          <dt>Problem</dt><dd>Privacy-preserving sync — the server never sees plaintext user data.</dd>
+          <dt>Decisions</dt><dd>Hybrid storage (localStorage is the offline source of truth; debounced cloud sync; cloud-wins merge on auth); PBKDF2 key derivation + AES-256-GCM; stale-while-revalidate service worker.</dd>
+        </dl>
+        <div class="footer-row"><a class="btn" href="https://held-eta.vercel.app" target="_blank" rel="noopener">Live ↗</a></div>
+      </article>
+
+      <article class="card">
+        <div class="card-head"><span class="num">06</span><div>
+          <h3>Fix.Kit — Accessibility Compliance</h3>
+          <p class="sub">browser-native · live DOM remediation</p>
+        </div></div>
+        <ul class="stack-row"><li>Chrome extension</li><li>WCAG 2.1</li><li>live DOM repair</li><li>BYOK alt-text</li><li>no backend</li></ul>
+        <p class="blurb">A browser tool that scans any website against 19 WCAG 2.1 success criteria and auto-repairs 13 of them live in the page — contrast, form labels, ARIA landmarks, heading structure, alt text — with a compliance score you watch change in real time. No backend; nothing leaves the page.</p>
+        <dl class="points">
+          <dt>Honest scope</dt><dd>Measured F→C on the demo (score 0→68, 12 live fixes); anything it can't safely auto-fix — complex image descriptions, third-party widgets, PDFs — it flags rather than fakes. No false confidence.</dd>
+          <dt>Why</dt><dd>California's Unruh Act (and AB-2190, effective 2027) make web accessibility a legal bar for businesses — this is the fast, private, on-the-spot path to compliant.</dd>
+        </dl>
+      </article>
+
+    </div>
+  </section>
+
+  <section>
+    <h2>Also shipped</h2>
+    <p class="also"><a href="https://ksystems.gumroad.com" target="_blank" rel="noopener"><strong>Digital products with live revenue</strong></a> — designed, built, and launched a storefront of digital products end-to-end (Gumroad): product, store, copy.</p>
+  </section>
+
+  <section>
+    <h2>Stack</h2>
+    <dl class="stack-list">
+      <dt>Languages</dt><dd>Python, TypeScript/JavaScript, some Rust/K</dd>
+      <dt>AI / ML</dt><dd>LLM inference, quantization, multi-agent systems, RAG/routing, on-device (AMD NPU/XDNA2), Claude API</dd>
+      <dt>Web</dt><dd>SvelteKit, Svelte 5, Tailwind, Supabase, Vercel, PWA/service workers</dd>
+      <dt>Systems</dt><dd>message-bus architecture, event sourcing, encryption, heterogeneous compute</dd>
+    </dl>
+  </section>
+
+  <section>
+    <h2>How I work</h2>
+    <p class="how">Bias toward shipping and toward observability — audit logs, cost tracking, and failure detection built in from the start, not bolted on. Comfortable owning a system end-to-end, from the inference runtime up to the deployed UI.</p>
+  </section>
+
+  <footer>
+    <a href="mailto:kit@holdtheline.tech">kit@holdtheline.tech</a>
+    <span class="dot">·</span>
+    <a href="https://github.com/humilityisavirtue-collab" target="_blank" rel="noopener">GitHub</a>
+    <span class="dot">·</span>
+    <a href="/resume">résumé</a>
+  </footer>
+</main>
+</body>
+</html>
