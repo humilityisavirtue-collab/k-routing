@@ -7,6 +7,10 @@
     }
   ],
   "routes": [
+    { "src": "/fix-kit", "dest": "https://fix-kit.vercel.app/" },
+    { "src": "/fix-kit/(.*)", "dest": "https://fix-kit.vercel.app/$1" },
+    { "src": "/held", "status": 302, "headers": { "Location": "https://held-eta.vercel.app/" } },
+    { "src": "/saga-logo-ai", "status": 302, "headers": { "Location": "https://saga-logo-ai.vercel.app/" } },
     {
       "src": "/(.*)",
       "dest": "/index.html"
