@@ -1,8 +1,6 @@
 # 🦊 K-104 — Semantic AI Routing via Playing Card Geometry
 
 [![CI](https://github.com/humilityisavirtue-collab/k-routing/actions/workflows/ci.yml/badge.svg)](https://github.com/humilityisavirtue-collab/k-routing/actions/workflows/ci.yml)
-[![PyPI](https://img.shields.io/pypi/v/klaw-router.svg?color=gold&label=klaw-router)](https://pypi.org/project/klaw-router/)
-[![PyPI](https://img.shields.io/pypi/v/openpod.svg?color=teal&label=openpod)](https://pypi.org/project/openpod/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Python](https://img.shields.io/badge/python-3.10%2B-blue)](https://pypi.org/project/klaw-router/)
 
@@ -10,8 +8,12 @@
 > Blended cost: **$0.003/1K tokens** — 48× cheaper than GPT-4 Opus.
 > Empirically verified in transformer activation space.
 
+The router ships in this repo as `openclaw/` (package name `klaw-router`):
+
 ```bash
-pip install openclaw
+git clone https://github.com/humilityisavirtue-collab/k-routing
+cd k-routing/openclaw
+pip install -e .
 ```
 
 ---

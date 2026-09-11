@@ -10,7 +10,7 @@
 ## Install
 
 ```bash
-pip install klaw-router
+Install from this repo (not yet on PyPI): `cd openclaw && pip install -e .`
 ```
 
 ## Quick Start

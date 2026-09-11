@@ -5,7 +5,7 @@
 ## Install
 
 ```bash
-pip install openpod
+Not yet on PyPI (name taken). Install from source: `cd openpod && pip install -e .`
 ```
 
 ## Quick Start
