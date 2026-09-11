@@ -1,7 +1,7 @@
 """
 hello_klaw.py — K-104 routing in 10 lines.
 
-Install: from this repo — `cd openclaw && pip install -e .`
+Install: pip install klaw-router
 """
 from klaw import KlawRouter
 

@@ -8,12 +8,8 @@
 > Blended cost: **$0.003/1K tokens** — 48× cheaper than GPT-4 Opus.
 > Empirically verified in transformer activation space.
 
-The router ships in this repo as `openclaw/` (package name `klaw-router`):
-
 ```bash
-git clone https://github.com/humilityisavirtue-collab/k-routing
-cd k-routing/openclaw
-pip install -e .
+pip install klaw-router
 ```
 
 ---
