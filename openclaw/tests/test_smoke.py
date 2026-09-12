@@ -22,6 +22,14 @@ check("flexible greeting -> tier 0", c["tier"] == 0, str(c["tier"]))
 check("greeting has template_response", bool(c["template_response"]), repr(c["template_response"])[:40])
 check("greeting k_address +1H", c["k_address"] == "+1H", c["k_address"])
 
+# --- greeting rotation: multiple responses per greeting, rotated by day ---
+pool = r.classifier.GREETING_ROTATIONS["hey"]
+pinned = [r.classifier._get_greeting_response("hey", day_seed=d) for d in (738000, 738001, 738002, 738003)]
+check("greeting rotation varies across days", len(set(pinned)) > 1, f"got {len(set(pinned))} distinct in 4 days")
+check("rotation is deterministic per day", all(p == r.classifier._get_greeting_response("hey", day_seed=d)
+                                               for d, p in zip((738000, 738001), pinned[:2])))
+check("rotation output is always a pool member", all(p in pool for p in pinned))
+
 c2 = r.classify("debug this stack trace for me, the exception happens in production")
 check("coding query -> tier 2", c2["tier"] == 2, f"tier={c2['tier']} reason={c2['reason']}")
 check("coding k_address ends in S", c2["k_address"].endswith("S"), c2["k_address"])

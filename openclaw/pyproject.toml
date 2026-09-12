@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "klaw-router"
-version = "0.1.1"
+version = "0.1.2"
 description = "KLAW Router — K-104 Intelligent Model Router. Route queries to the cheapest model that can handle them."
 readme = "README.md"
 license = "MIT"

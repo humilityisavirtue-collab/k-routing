@@ -181,6 +181,50 @@ class ClawRuntime:
 class KClassifier:
     """Classify queries using K-104 semantic addressing."""
 
+    # Multiple responses per greeting, rotated by day — the free tier should
+    # feel like a place, not a vending machine. Deterministic per (greeting,
+    # date), so tests can pin day_seed and users see variety without state.
+    GREETING_ROTATIONS = {
+        "hi": ["Hello! How can I help you today?",
+               "Hi there! What are we working on?",
+               "Hi! Good to see you.",
+               "Hello! What's on your mind?"],
+        "hello": ["Hello! What can I do for you?",
+                  "Hey there! What can I do for you?",
+                  "Hello! Ready when you are.",
+                  "Hi! What are we building today?"],
+        "hey": ["Hey! What's up?",
+                "Hey there! What do you need?",
+                "Hey! Good to see you.",
+                "Hey! What are we into today?"],
+        "yo": ["Yo! What do you need?",
+               "Yo! Ready to work?",
+               "Yo! What's happening?",
+               "Yo! Let's hear it."],
+        "sup": ["Not much! What can I help with?",
+                "Sup! What are we doing?",
+                "Just waiting for a question. :)",
+                "Sup! Bring me something interesting."],
+        "thanks": ["You're welcome!",
+                   "Anytime!",
+                   "Happy to help!",
+                   "Glad it worked!"],
+        "bye": ["Take care! Dai stihó.",
+                "See you! Dai stihó.",
+                "Until next time — go well.",
+                "Take care! Come back soon."],
+        "good morning": ["Good morning! Ready to go.",
+                         "Morning! Fresh start, let's go.",
+                         "Good morning! What's first?"],
+        "good night": ["Good night! Rest well.",
+                       "Good night — sleep well.",
+                       "Night! Rest easy."],
+        "gm": ["Good morning!",
+               "Morning! Ready to go."],
+        "gn": ["Good night!",
+               "Night! Rest well."],
+    }
+
     def __init__(self):
         self._rooms = ClawRuntime()
 
@@ -268,21 +312,14 @@ class KClassifier:
             return max(scores, key=scores.get)
         return "spades"  # default: analytical
 
-    def _get_greeting_response(self, greeting: str) -> str:
-        responses = {
-            "hi": "Hello! How can I help you today?",
-            "hello": "Hello! What can I do for you?",
-            "hey": "Hey! What's up?",
-            "yo": "Yo! What do you need?",
-            "sup": "Not much! What can I help with?",
-            "thanks": "You're welcome!",
-            "bye": "Take care! Dai stihó.",
-            "good morning": "Good morning! Ready to go.",
-            "good night": "Good night! Rest well.",
-            "gm": "Good morning!",
-            "gn": "Good night!",
-        }
-        return responses.get(greeting, "Hello!")
+    def _get_greeting_response(self, greeting: str, day_seed: int = None) -> str:
+        pool = self.GREETING_ROTATIONS.get(greeting)
+        if not pool:
+            # Unknown phrasing — rotate through the "hi" pool rather than
+            # freezing on one canned default.
+            pool = self.GREETING_ROTATIONS["hi"]
+        seed = date.today().toordinal() if day_seed is None else day_seed
+        return pool[seed % len(pool)]
 
     def _assess_complexity(self, q: str, word_count: int, suit: str, words: set) -> tuple:
         # Tier 1: Simple/factual/short
