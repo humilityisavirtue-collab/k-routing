@@ -192,8 +192,19 @@ class KClassifier:
         # Greetings → tier 0 (free template)
         greetings = {"hi", "hello", "hey", "yo", "sup", "thanks", "bye",
                      "good morning", "good night", "gm", "gn"}
-        if query_lower in greetings:
-            template_resp = self._get_greeting_response(query_lower)
+        # Flexible greeting: short conversational openers that START with a
+        # greeting word ("hey, how's it going?") count too — the exact-match
+        # set alone left real greetings routing to the paid tiers (0.1.0 bug).
+        first_word = ""
+        if query_lower.split():
+            first_word = re.sub(r"[^a-z']", "", query_lower.split()[0])
+        is_greeting = query_lower in greetings or (
+            first_word in {"hi", "hello", "hey", "yo", "sup", "gm", "gn"}
+            and word_count <= 4
+        )
+        if is_greeting:
+            template_resp = self._get_greeting_response(
+                query_lower if query_lower in greetings else first_word)
             return {
                 "tier": 0,
                 "suit": "hearts",
@@ -226,6 +237,15 @@ class KClassifier:
 
         pol_char = "+" if polarity == "light" else "-" if polarity == "dark" else "+"
         rank = max(1, tier * 3)
+
+        # Corpus enrichment: the rooms.claw runtime is loaded (105 rooms) —
+        # attach the matched room's name/meaning to the classification so
+        # callers see WHICH K-room they landed in. The room corpus carries
+        # structure, not chat responses, so this is enrichment, not reply.
+        room_id = f"{suit[0]}_{rank}" + ("_dark" if polarity == "dark" else "")
+        room = self._rooms.get(room_id)
+        room_name = room.get("name") if room else None
+
         return {
             "tier": tier,
             "suit": suit,
@@ -234,6 +254,8 @@ class KClassifier:
             "reason": reason,
             "template_response": None,
             "k_address": f"{pol_char}{rank}{suit[0].upper()}",
+            "room_name": room_name,
+            "room_meaning": room.get("meaning") if room else None,
         }
 
     def _classify_suit(self, words: set) -> str:
@@ -449,11 +471,33 @@ class Backends:
             return self._call_openrouter(query, system_prompt, max_tokens)
         return self._call_local(query, system_prompt, max_tokens)
 
-    def _call_local(self, query, system_prompt, max_tokens) -> dict:
+    def _local_model(self) -> str:
+        """Pick a local model: KLAW_LOCAL_MODEL env, else first installed Ollama tag.
+        Empty string means no local model is usable."""
+        env = os.environ.get("KLAW_LOCAL_MODEL", "").strip()
+        if env:
+            return env
         import urllib.request
         try:
+            with urllib.request.urlopen("http://localhost:11434/api/tags", timeout=5) as r:
+                tags = json.loads(r.read().decode("utf-8")).get("models", [])
+                names = [(m.get("name") or m.get("model") or "") for m in tags]
+                names = [n for n in names if n]
+                return names[0] if names else ""
+        except Exception:
+            return ""
+
+    def _call_local(self, query, system_prompt, max_tokens) -> dict:
+        import urllib.request
+        model = self._local_model()
+        if not model:
+            return {"response": "[No local model available — start Ollama (ollama serve) "
+                                "and pull a model, or set KLAW_LOCAL_MODEL]",
+                    "model": "ollama_local", "tokens_in": 0, "tokens_out": 0,
+                    "error": "no_local_model"}
+        try:
             payload = json.dumps({
-                "model": "gemma3:27b",
+                "model": model,
                 "messages": [
                     {"role": "system", "content": system_prompt or "You are a helpful assistant."},
                     {"role": "user", "content": query},
@@ -690,6 +734,7 @@ class KlawRouter:
                 "response": resp,
                 "tier": 0, "tier_name": "template",
                 "model": "template", "model_label": "K-Template (FREE)",
+                "k_address": classification.get("k_address"),
                 "cost": 0.0, "baseline_cost": cr["baseline_cost"],
                 "savings": cr["savings"], "classification": classification,
                 "latency_ms": int((time.time() - start) * 1000),
@@ -728,6 +773,8 @@ class KlawRouter:
             "tier_name": TIER_NAMES.get(actual_tier, "?"),
             "model": actual_model,
             "model_label": PRICING.get(actual_model, {}).get("label", actual_model),
+            "k_address": classification.get("k_address"),
+            "room_name": classification.get("room_name"),
             "cost": cr["actual_cost"],
             "baseline_cost": cr["baseline_cost"],
             "savings": cr["savings"],
